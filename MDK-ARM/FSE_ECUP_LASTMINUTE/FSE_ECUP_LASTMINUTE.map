@@ -51,7 +51,8 @@ Section Cross References
     adc.o(i.Send_can_messagess) refers to can_ecup.o(i.ECUP_DiagPressure_need_to_send) for ECUP_DiagPressure_need_to_send
     adc.o(i.Send_can_messagess) refers to can_ecup.o(i.ECUP_send_DiagPressure_s) for ECUP_send_DiagPressure_s
     adc.o(i.Send_can_messagess) refers to adc.o(.data) for ECUP_stat
-    adc.o(i.apply_calibration) refers to adc.o(.data) for ECUP_stat
+    adc.o(i.apply_calibration) refers to stm32f3xx_hal.o(i.HAL_GetTick) for HAL_GetTick
+    adc.o(i.apply_calibration) refers to adc.o(.data) for FT_can_countdown
     adc.o(i.calib_init) refers to flash.o(i.load_flash) for load_flash
     adc.o(i.calib_init) refers to adc.o(.bss) for calibrate
     adc.o(i.calib_init) refers to adc.o(.data) for min_acc_pedal
@@ -862,7 +863,7 @@ Removing Unused input sections from the image.
     Removing adc.o(.rev16_text), (4 bytes).
     Removing adc.o(.revsh_text), (4 bytes).
     Removing adc.o(.rrx_text), (6 bytes).
-    Removing adc.o(i.init_measurements), (44 bytes).
+    Removing adc.o(i.init_measurements), (52 bytes).
     Removing adc.o(i.stop_newADC), (12 bytes).
     Removing can_callback.o(.rev16_text), (4 bytes).
     Removing can_callback.o(.revsh_text), (4 bytes).
@@ -1369,7 +1370,7 @@ Removing Unused input sections from the image.
     Removing system_stm32f3xx.o(.rrx_text), (6 bytes).
     Removing system_stm32f3xx.o(i.SystemCoreClockUpdate), (164 bytes).
 
-510 unused section(s) (total 45356 bytes) removed from the image.
+510 unused section(s) (total 45364 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1655,76 +1656,76 @@ Image Symbol Table
     i.__scatterload_null                     0x08005196   Section        2  handlers.o(i.__scatterload_null)
     i.__scatterload_zeroinit                 0x08005198   Section       14  handlers.o(i.__scatterload_zeroinit)
     i.apply_calibration                      0x080051a8   Section        0  adc.o(i.apply_calibration)
-    apply_calibration                        0x080051a9   Thumb Code    94  adc.o(i.apply_calibration)
-    i.brake_pressure_raw_to_kPa              0x0800520c   Section        0  adc.o(i.brake_pressure_raw_to_kPa)
-    brake_pressure_raw_to_kPa                0x0800520d   Thumb Code    90  adc.o(i.brake_pressure_raw_to_kPa)
-    i.calib_init                             0x08005268   Section        0  adc.o(i.calib_init)
-    i.canInitMsgStatus                       0x080052ec   Section        0  can.o(i.canInitMsgStatus)
-    i.canUpdateMsgStatusOnReceive            0x080052fc   Section        0  can.o(i.canUpdateMsgStatusOnReceive)
-    i.candbHandleMessage                     0x08005318   Section        0  can_ecup.o(i.candbHandleMessage)
-    i.candbInit                              0x08005360   Section        0  can_ecup.o(i.candbInit)
-    i.load_flash                             0x080053a0   Section        0  flash.o(i.load_flash)
-    i.main                                   0x080053b8   Section        0  main.o(i.main)
-    i.ringbufCanWrite                        0x08005454   Section        0  ringbuf.o(i.ringbufCanWrite)
-    i.ringbufTryRead                         0x08005480   Section        0  ringbuf.o(i.ringbufTryRead)
-    i.ringbufWriteUnchecked                  0x080054ae   Section        0  ringbuf.o(i.ringbufWriteUnchecked)
-    i.set_flag                               0x080054d4   Section        0  can.o(i.set_flag)
-    set_flag                                 0x080054d5   Thumb Code    12  can.o(i.set_flag)
-    i.start_ADC                              0x080054e4   Section        0  adc.o(i.start_ADC)
-    i.txGetTimeMillis                        0x08005530   Section        0  can_callback.o(i.txGetTimeMillis)
-    i.txHandleCANMessage                     0x08005538   Section        0  can_callback.o(i.txHandleCANMessage)
-    i.txInit                                 0x08005540   Section        0  can.o(i.txInit)
-    i.txProcess                              0x08005568   Section        0  can.o(i.txProcess)
-    i.txReceiveCANMessage                    0x080055dc   Section        0  can.o(i.txReceiveCANMessage)
-    i.txSendCANMessage                       0x08005630   Section        0  can_callback.o(i.txSendCANMessage)
-    i.update_pedal_measurements              0x0800564c   Section        0  adc.o(i.update_pedal_measurements)
-    update_pedal_measurements                0x0800564d   Thumb Code   452  adc.o(i.update_pedal_measurements)
-    i.update_voltage_measurements            0x08005850   Section        0  adc.o(i.update_voltage_measurements)
-    update_voltage_measurements              0x08005851   Thumb Code    38  adc.o(i.update_voltage_measurements)
-    i.write_flash                            0x08005880   Section        0  flash.o(i.write_flash)
-    .constdata                               0x080058a0   Section       32  stm32f3xx_hal_rcc.o(.constdata)
-    .constdata                               0x080058c0   Section       24  system_stm32f3xx.o(.constdata)
-    .data                                    0x20000000   Section      120  adc.o(.data)
-    sens_ACC1                                0x20000008   Data           4  adc.o(.data)
-    sens_ACC1_valid                          0x2000000c   Data           4  adc.o(.data)
-    ACC1_raw                                 0x20000010   Data           4  adc.o(.data)
-    sens_ACC2                                0x20000014   Data           4  adc.o(.data)
-    sens_ACC2_valid                          0x20000018   Data           4  adc.o(.data)
-    ACC2_raw                                 0x2000001c   Data           4  adc.o(.data)
-    ATPS_countdown                           0x20000028   Data           8  adc.o(.data)
-    break_press                              0x20000030   Data           8  adc.o(.data)
-    max_acc_pedal                            0x20000038   Data           4  adc.o(.data)
-    min_acc_pedal                            0x2000003c   Data           4  adc.o(.data)
-    max_breake_pedal                         0x20000040   Data           4  adc.o(.data)
-    min_breake_pedal                         0x20000044   Data           4  adc.o(.data)
-    calib_offset                             0x20000048   Data           2  adc.o(.data)
-    ECUP_stat                                0x2000004a   Data           6  adc.o(.data)
-    ECUP_ACC                                 0x20000050   Data           8  adc.o(.data)
-    ECUP_BREAKE                              0x20000058   Data           6  adc.o(.data)
-    ECUPdiag2                                0x2000005e   Data           4  adc.o(.data)
-    ECUPdiag1                                0x20000062   Data           8  adc.o(.data)
-    ECUP_CALIB                               0x2000006a   Data           1  adc.o(.data)
-    send                                     0x2000006c   Data           4  adc.o(.data)
-    pressure_F_kPa                           0x20000070   Data           4  adc.o(.data)
-    pressure_R_kPa                           0x20000074   Data           4  adc.o(.data)
-    .data                                    0x20000078   Section        4  can.o(.data)
-    flags                                    0x20000078   Data           4  can.o(.data)
-    .data                                    0x2000007c   Section       24  can_ecup.o(.data)
-    .data                                    0x20000094   Section        4  flash.o(.data)
-    .data                                    0x20000098   Section        4  stm32f3xx_hal_msp.o(.data)
-    HAL_RCC_ADC12_CLK_ENABLED                0x20000098   Data           4  stm32f3xx_hal_msp.o(.data)
-    .data                                    0x2000009c   Section        9  stm32f3xx_hal.o(.data)
-    .data                                    0x200000a8   Section        4  system_stm32f3xx.o(.data)
-    .bss                                     0x200000ac   Section       36  adc.o(.bss)
-    calibrate                                0x200000b8   Data          24  adc.o(.bss)
-    .bss                                     0x200000d0   Section      272  can.o(.bss)
-    recv_buf                                 0x200000d0   Data         256  can.o(.bss)
-    recv_rb                                  0x200001d0   Data          16  can.o(.bss)
-    .bss                                     0x200001e0   Section       28  can_callback.o(.bss)
-    .bss                                     0x200001fc   Section       16  can_ecup.o(.bss)
-    .bss                                     0x2000020c   Section      836  main.o(.bss)
-    .bss                                     0x20000550   Section       32  stm32f3xx_hal_flash.o(.bss)
-    STACK                                    0x20000570   Section     1024  startup_stm32f303xc.o(STACK)
+    apply_calibration                        0x080051a9   Thumb Code   144  adc.o(i.apply_calibration)
+    i.brake_pressure_raw_to_kPa              0x08005240   Section        0  adc.o(i.brake_pressure_raw_to_kPa)
+    brake_pressure_raw_to_kPa                0x08005241   Thumb Code    90  adc.o(i.brake_pressure_raw_to_kPa)
+    i.calib_init                             0x0800529c   Section        0  adc.o(i.calib_init)
+    i.canInitMsgStatus                       0x08005320   Section        0  can.o(i.canInitMsgStatus)
+    i.canUpdateMsgStatusOnReceive            0x08005330   Section        0  can.o(i.canUpdateMsgStatusOnReceive)
+    i.candbHandleMessage                     0x0800534c   Section        0  can_ecup.o(i.candbHandleMessage)
+    i.candbInit                              0x08005394   Section        0  can_ecup.o(i.candbInit)
+    i.load_flash                             0x080053d4   Section        0  flash.o(i.load_flash)
+    i.main                                   0x080053ec   Section        0  main.o(i.main)
+    i.ringbufCanWrite                        0x08005488   Section        0  ringbuf.o(i.ringbufCanWrite)
+    i.ringbufTryRead                         0x080054b4   Section        0  ringbuf.o(i.ringbufTryRead)
+    i.ringbufWriteUnchecked                  0x080054e2   Section        0  ringbuf.o(i.ringbufWriteUnchecked)
+    i.set_flag                               0x08005508   Section        0  can.o(i.set_flag)
+    set_flag                                 0x08005509   Thumb Code    12  can.o(i.set_flag)
+    i.start_ADC                              0x08005518   Section        0  adc.o(i.start_ADC)
+    i.txGetTimeMillis                        0x08005564   Section        0  can_callback.o(i.txGetTimeMillis)
+    i.txHandleCANMessage                     0x0800556c   Section        0  can_callback.o(i.txHandleCANMessage)
+    i.txInit                                 0x08005574   Section        0  can.o(i.txInit)
+    i.txProcess                              0x0800559c   Section        0  can.o(i.txProcess)
+    i.txReceiveCANMessage                    0x08005610   Section        0  can.o(i.txReceiveCANMessage)
+    i.txSendCANMessage                       0x08005664   Section        0  can_callback.o(i.txSendCANMessage)
+    i.update_pedal_measurements              0x08005680   Section        0  adc.o(i.update_pedal_measurements)
+    update_pedal_measurements                0x08005681   Thumb Code   452  adc.o(i.update_pedal_measurements)
+    i.update_voltage_measurements            0x08005884   Section        0  adc.o(i.update_voltage_measurements)
+    update_voltage_measurements              0x08005885   Thumb Code    38  adc.o(i.update_voltage_measurements)
+    i.write_flash                            0x080058b4   Section        0  flash.o(i.write_flash)
+    .constdata                               0x080058d4   Section       32  stm32f3xx_hal_rcc.o(.constdata)
+    .constdata                               0x080058f4   Section       24  system_stm32f3xx.o(.constdata)
+    .data                                    0x20000000   Section      128  adc.o(.data)
+    sens_ACC1                                0x2000000c   Data           4  adc.o(.data)
+    sens_ACC1_valid                          0x20000010   Data           4  adc.o(.data)
+    ACC1_raw                                 0x20000014   Data           4  adc.o(.data)
+    sens_ACC2                                0x20000018   Data           4  adc.o(.data)
+    sens_ACC2_valid                          0x2000001c   Data           4  adc.o(.data)
+    ACC2_raw                                 0x20000020   Data           4  adc.o(.data)
+    ATPS_countdown                           0x20000030   Data           8  adc.o(.data)
+    break_press                              0x20000038   Data           8  adc.o(.data)
+    max_acc_pedal                            0x20000040   Data           4  adc.o(.data)
+    min_acc_pedal                            0x20000044   Data           4  adc.o(.data)
+    max_breake_pedal                         0x20000048   Data           4  adc.o(.data)
+    min_breake_pedal                         0x2000004c   Data           4  adc.o(.data)
+    calib_offset                             0x20000050   Data           2  adc.o(.data)
+    ECUP_stat                                0x20000052   Data           6  adc.o(.data)
+    ECUP_ACC                                 0x20000058   Data           8  adc.o(.data)
+    ECUP_BREAKE                              0x20000060   Data           6  adc.o(.data)
+    ECUPdiag2                                0x20000066   Data           4  adc.o(.data)
+    ECUPdiag1                                0x2000006a   Data           8  adc.o(.data)
+    ECUP_CALIB                               0x20000072   Data           1  adc.o(.data)
+    send                                     0x20000074   Data           4  adc.o(.data)
+    pressure_F_kPa                           0x20000078   Data           4  adc.o(.data)
+    pressure_R_kPa                           0x2000007c   Data           4  adc.o(.data)
+    .data                                    0x20000080   Section        4  can.o(.data)
+    flags                                    0x20000080   Data           4  can.o(.data)
+    .data                                    0x20000084   Section       24  can_ecup.o(.data)
+    .data                                    0x2000009c   Section        4  flash.o(.data)
+    .data                                    0x200000a0   Section        4  stm32f3xx_hal_msp.o(.data)
+    HAL_RCC_ADC12_CLK_ENABLED                0x200000a0   Data           4  stm32f3xx_hal_msp.o(.data)
+    .data                                    0x200000a4   Section        9  stm32f3xx_hal.o(.data)
+    .data                                    0x200000b0   Section        4  system_stm32f3xx.o(.data)
+    .bss                                     0x200000b4   Section       36  adc.o(.bss)
+    calibrate                                0x200000c0   Data          24  adc.o(.bss)
+    .bss                                     0x200000d8   Section      272  can.o(.bss)
+    recv_buf                                 0x200000d8   Data         256  can.o(.bss)
+    recv_rb                                  0x200001d8   Data          16  can.o(.bss)
+    .bss                                     0x200001e8   Section       28  can_callback.o(.bss)
+    .bss                                     0x20000204   Section       16  can_ecup.o(.bss)
+    .bss                                     0x20000214   Section      836  main.o(.bss)
+    .bss                                     0x20000558   Section       32  stm32f3xx_hal_flash.o(.bss)
+    STACK                                    0x20000578   Section     1024  startup_stm32f303xc.o(STACK)
 
     Global Symbols
 
@@ -1929,64 +1930,65 @@ Image Symbol Table
     __scatterload_copy                       0x08005189   Thumb Code    14  handlers.o(i.__scatterload_copy)
     __scatterload_null                       0x08005197   Thumb Code     2  handlers.o(i.__scatterload_null)
     __scatterload_zeroinit                   0x08005199   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    calib_init                               0x08005269   Thumb Code   108  adc.o(i.calib_init)
-    canInitMsgStatus                         0x080052ed   Thumb Code    16  can.o(i.canInitMsgStatus)
-    canUpdateMsgStatusOnReceive              0x080052fd   Thumb Code    28  can.o(i.canUpdateMsgStatusOnReceive)
-    candbHandleMessage                       0x08005319   Thumb Code    62  can_ecup.o(i.candbHandleMessage)
-    candbInit                                0x08005361   Thumb Code    40  can_ecup.o(i.candbInit)
-    load_flash                               0x080053a1   Thumb Code    18  flash.o(i.load_flash)
-    main                                     0x080053b9   Thumb Code   132  main.o(i.main)
-    ringbufCanWrite                          0x08005455   Thumb Code    44  ringbuf.o(i.ringbufCanWrite)
-    ringbufTryRead                           0x08005481   Thumb Code    46  ringbuf.o(i.ringbufTryRead)
-    ringbufWriteUnchecked                    0x080054af   Thumb Code    38  ringbuf.o(i.ringbufWriteUnchecked)
-    start_ADC                                0x080054e5   Thumb Code    62  adc.o(i.start_ADC)
-    txGetTimeMillis                          0x08005531   Thumb Code     8  can_callback.o(i.txGetTimeMillis)
-    txHandleCANMessage                       0x08005539   Thumb Code     8  can_callback.o(i.txHandleCANMessage)
-    txInit                                   0x08005541   Thumb Code    26  can.o(i.txInit)
-    txProcess                                0x08005569   Thumb Code   112  can.o(i.txProcess)
-    txReceiveCANMessage                      0x080055dd   Thumb Code    78  can.o(i.txReceiveCANMessage)
-    txSendCANMessage                         0x08005631   Thumb Code    22  can_callback.o(i.txSendCANMessage)
-    write_flash                              0x08005881   Thumb Code    26  flash.o(i.write_flash)
-    aPLLMULFactorTable                       0x080058a0   Data          16  stm32f3xx_hal_rcc.o(.constdata)
-    aPredivFactorTable                       0x080058b0   Data          16  stm32f3xx_hal_rcc.o(.constdata)
-    AHBPrescTable                            0x080058c0   Data          16  system_stm32f3xx.o(.constdata)
-    APBPrescTable                            0x080058d0   Data           8  system_stm32f3xx.o(.constdata)
-    Region$$Table$$Base                      0x080058d8   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080058f8   Number         0  anon$$obj.o(Region$$Table)
+    calib_init                               0x0800529d   Thumb Code   108  adc.o(i.calib_init)
+    canInitMsgStatus                         0x08005321   Thumb Code    16  can.o(i.canInitMsgStatus)
+    canUpdateMsgStatusOnReceive              0x08005331   Thumb Code    28  can.o(i.canUpdateMsgStatusOnReceive)
+    candbHandleMessage                       0x0800534d   Thumb Code    62  can_ecup.o(i.candbHandleMessage)
+    candbInit                                0x08005395   Thumb Code    40  can_ecup.o(i.candbInit)
+    load_flash                               0x080053d5   Thumb Code    18  flash.o(i.load_flash)
+    main                                     0x080053ed   Thumb Code   132  main.o(i.main)
+    ringbufCanWrite                          0x08005489   Thumb Code    44  ringbuf.o(i.ringbufCanWrite)
+    ringbufTryRead                           0x080054b5   Thumb Code    46  ringbuf.o(i.ringbufTryRead)
+    ringbufWriteUnchecked                    0x080054e3   Thumb Code    38  ringbuf.o(i.ringbufWriteUnchecked)
+    start_ADC                                0x08005519   Thumb Code    62  adc.o(i.start_ADC)
+    txGetTimeMillis                          0x08005565   Thumb Code     8  can_callback.o(i.txGetTimeMillis)
+    txHandleCANMessage                       0x0800556d   Thumb Code     8  can_callback.o(i.txHandleCANMessage)
+    txInit                                   0x08005575   Thumb Code    26  can.o(i.txInit)
+    txProcess                                0x0800559d   Thumb Code   112  can.o(i.txProcess)
+    txReceiveCANMessage                      0x08005611   Thumb Code    78  can.o(i.txReceiveCANMessage)
+    txSendCANMessage                         0x08005665   Thumb Code    22  can_callback.o(i.txSendCANMessage)
+    write_flash                              0x080058b5   Thumb Code    26  flash.o(i.write_flash)
+    aPLLMULFactorTable                       0x080058d4   Data          16  stm32f3xx_hal_rcc.o(.constdata)
+    aPredivFactorTable                       0x080058e4   Data          16  stm32f3xx_hal_rcc.o(.constdata)
+    AHBPrescTable                            0x080058f4   Data          16  system_stm32f3xx.o(.constdata)
+    APBPrescTable                            0x08005904   Data           8  system_stm32f3xx.o(.constdata)
+    Region$$Table$$Base                      0x0800590c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800592c   Number         0  anon$$obj.o(Region$$Table)
     adc_measurement2                         0x20000000   Data           4  adc.o(.data)
     adc_measurement3                         0x20000004   Data           4  adc.o(.data)
-    Vol_IN                                   0x20000020   Data           2  adc.o(.data)
-    Vol1_out                                 0x20000022   Data           2  adc.o(.data)
-    VOI                                      0x20000024   Data           2  adc.o(.data)
-    ECUP_Status_last_sent                    0x2000007c   Data           4  can_ecup.o(.data)
-    ECUP_Pedals_last_sent                    0x20000080   Data           4  can_ecup.o(.data)
-    ECUP_Pressure_last_sent                  0x20000084   Data           4  can_ecup.o(.data)
-    ECUP_REQCalibPedal_data                  0x20000088   Data           1  can_ecup.o(.data)
-    ECUP_DiagPos_last_sent                   0x2000008c   Data           4  can_ecup.o(.data)
-    ECUP_DiagPressure_last_sent              0x20000090   Data           4  can_ecup.o(.data)
-    flashadress                              0x20000094   Data           4  flash.o(.data)
-    uwTick                                   0x2000009c   Data           4  stm32f3xx_hal.o(.data)
-    uwTickPrio                               0x200000a0   Data           4  stm32f3xx_hal.o(.data)
-    uwTickFreq                               0x200000a4   Data           1  stm32f3xx_hal.o(.data)
-    SystemCoreClock                          0x200000a8   Data           4  system_stm32f3xx.o(.data)
-    adc_measurement1                         0x200000ac   Data          12  adc.o(.bss)
-    txMsg                                    0x200001e0   Data          28  can_callback.o(.bss)
-    ECUP_REQCalibPedal_status                0x200001fc   Data          16  can_ecup.o(.bss)
-    hadc1                                    0x2000020c   Data          84  main.o(.bss)
-    hadc2                                    0x20000260   Data          84  main.o(.bss)
-    hadc3                                    0x200002b4   Data          84  main.o(.bss)
-    hdma_adc1                                0x20000308   Data          68  main.o(.bss)
-    hdma_adc2                                0x2000034c   Data          68  main.o(.bss)
-    hdma_adc3                                0x20000390   Data          68  main.o(.bss)
-    hcan                                     0x200003d4   Data          68  main.o(.bss)
-    hdac                                     0x20000418   Data          20  main.o(.bss)
-    htim1                                    0x2000042c   Data          64  main.o(.bss)
-    htim2                                    0x2000046c   Data          64  main.o(.bss)
-    htim15                                   0x200004ac   Data          64  main.o(.bss)
-    htim16                                   0x200004ec   Data          64  main.o(.bss)
-    canRxMsg                                 0x2000052c   Data          36  main.o(.bss)
-    pFlash                                   0x20000550   Data          32  stm32f3xx_hal_flash.o(.bss)
-    __initial_sp                             0x20000970   Data           0  startup_stm32f303xc.o(STACK)
+    FT_can_countdown                         0x20000008   Data           4  adc.o(.data)
+    Vol_IN                                   0x20000024   Data           2  adc.o(.data)
+    Vol1_out                                 0x20000026   Data           2  adc.o(.data)
+    VOI                                      0x20000028   Data           2  adc.o(.data)
+    ECUP_Status_last_sent                    0x20000084   Data           4  can_ecup.o(.data)
+    ECUP_Pedals_last_sent                    0x20000088   Data           4  can_ecup.o(.data)
+    ECUP_Pressure_last_sent                  0x2000008c   Data           4  can_ecup.o(.data)
+    ECUP_REQCalibPedal_data                  0x20000090   Data           1  can_ecup.o(.data)
+    ECUP_DiagPos_last_sent                   0x20000094   Data           4  can_ecup.o(.data)
+    ECUP_DiagPressure_last_sent              0x20000098   Data           4  can_ecup.o(.data)
+    flashadress                              0x2000009c   Data           4  flash.o(.data)
+    uwTick                                   0x200000a4   Data           4  stm32f3xx_hal.o(.data)
+    uwTickPrio                               0x200000a8   Data           4  stm32f3xx_hal.o(.data)
+    uwTickFreq                               0x200000ac   Data           1  stm32f3xx_hal.o(.data)
+    SystemCoreClock                          0x200000b0   Data           4  system_stm32f3xx.o(.data)
+    adc_measurement1                         0x200000b4   Data          12  adc.o(.bss)
+    txMsg                                    0x200001e8   Data          28  can_callback.o(.bss)
+    ECUP_REQCalibPedal_status                0x20000204   Data          16  can_ecup.o(.bss)
+    hadc1                                    0x20000214   Data          84  main.o(.bss)
+    hadc2                                    0x20000268   Data          84  main.o(.bss)
+    hadc3                                    0x200002bc   Data          84  main.o(.bss)
+    hdma_adc1                                0x20000310   Data          68  main.o(.bss)
+    hdma_adc2                                0x20000354   Data          68  main.o(.bss)
+    hdma_adc3                                0x20000398   Data          68  main.o(.bss)
+    hcan                                     0x200003dc   Data          68  main.o(.bss)
+    hdac                                     0x20000420   Data          20  main.o(.bss)
+    htim1                                    0x20000434   Data          64  main.o(.bss)
+    htim2                                    0x20000474   Data          64  main.o(.bss)
+    htim15                                   0x200004b4   Data          64  main.o(.bss)
+    htim16                                   0x200004f4   Data          64  main.o(.bss)
+    canRxMsg                                 0x20000534   Data          36  main.o(.bss)
+    pFlash                                   0x20000558   Data          32  stm32f3xx_hal_flash.o(.bss)
+    __initial_sp                             0x20000978   Data           0  startup_stm32f303xc.o(STACK)
 
 
 
@@ -1996,9 +1998,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000059a4, Max: 0x00040000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000059e0, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000058f8, Max: 0x00040000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000592c, Max: 0x00040000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2173,54 +2175,54 @@ Memory Map of the image
     0x08005196   0x08005196   0x00000002   Code   RO         4213    i.__scatterload_null  mc_w.l(handlers.o)
     0x08005198   0x08005198   0x0000000e   Code   RO         4214    i.__scatterload_zeroinit  mc_w.l(handlers.o)
     0x080051a6   0x080051a6   0x00000002   PAD
-    0x080051a8   0x080051a8   0x00000064   Code   RO           18    i.apply_calibration  adc.o
-    0x0800520c   0x0800520c   0x0000005a   Code   RO           19    i.brake_pressure_raw_to_kPa  adc.o
-    0x08005266   0x08005266   0x00000002   PAD
-    0x08005268   0x08005268   0x00000084   Code   RO           20    i.calib_init        adc.o
-    0x080052ec   0x080052ec   0x00000010   Code   RO          239    i.canInitMsgStatus  can.o
-    0x080052fc   0x080052fc   0x0000001c   Code   RO          240    i.canUpdateMsgStatusOnReceive  can.o
-    0x08005318   0x08005318   0x00000048   Code   RO          366    i.candbHandleMessage  can_ecup.o
-    0x08005360   0x08005360   0x00000040   Code   RO          367    i.candbInit         can_ecup.o
-    0x080053a0   0x080053a0   0x00000018   Code   RO          525    i.load_flash        flash.o
-    0x080053b8   0x080053b8   0x0000009c   Code   RO          663    i.main              main.o
-    0x08005454   0x08005454   0x0000002c   Code   RO          576    i.ringbufCanWrite   ringbuf.o
-    0x08005480   0x08005480   0x0000002e   Code   RO          577    i.ringbufTryRead    ringbuf.o
-    0x080054ae   0x080054ae   0x00000026   Code   RO          579    i.ringbufWriteUnchecked  ringbuf.o
-    0x080054d4   0x080054d4   0x00000010   Code   RO          241    i.set_flag          can.o
-    0x080054e4   0x080054e4   0x0000004c   Code   RO           22    i.start_ADC         adc.o
-    0x08005530   0x08005530   0x00000008   Code   RO          299    i.txGetTimeMillis   can_callback.o
-    0x08005538   0x08005538   0x00000008   Code   RO          300    i.txHandleCANMessage  can_callback.o
-    0x08005540   0x08005540   0x00000028   Code   RO          242    i.txInit            can.o
-    0x08005568   0x08005568   0x00000074   Code   RO          243    i.txProcess         can.o
-    0x080055dc   0x080055dc   0x00000054   Code   RO          244    i.txReceiveCANMessage  can.o
-    0x08005630   0x08005630   0x0000001c   Code   RO          301    i.txSendCANMessage  can_callback.o
-    0x0800564c   0x0800564c   0x00000204   Code   RO           24    i.update_pedal_measurements  adc.o
-    0x08005850   0x08005850   0x00000030   Code   RO           25    i.update_voltage_measurements  adc.o
-    0x08005880   0x08005880   0x00000020   Code   RO          526    i.write_flash       flash.o
-    0x080058a0   0x080058a0   0x00000020   Data   RO         2879    .constdata          stm32f3xx_hal_rcc.o
-    0x080058c0   0x080058c0   0x00000018   Data   RO         4149    .constdata          system_stm32f3xx.o
-    0x080058d8   0x080058d8   0x00000020   Data   RO         4210    Region$$Table       anon$$obj.o
+    0x080051a8   0x080051a8   0x00000098   Code   RO           18    i.apply_calibration  adc.o
+    0x08005240   0x08005240   0x0000005a   Code   RO           19    i.brake_pressure_raw_to_kPa  adc.o
+    0x0800529a   0x0800529a   0x00000002   PAD
+    0x0800529c   0x0800529c   0x00000084   Code   RO           20    i.calib_init        adc.o
+    0x08005320   0x08005320   0x00000010   Code   RO          239    i.canInitMsgStatus  can.o
+    0x08005330   0x08005330   0x0000001c   Code   RO          240    i.canUpdateMsgStatusOnReceive  can.o
+    0x0800534c   0x0800534c   0x00000048   Code   RO          366    i.candbHandleMessage  can_ecup.o
+    0x08005394   0x08005394   0x00000040   Code   RO          367    i.candbInit         can_ecup.o
+    0x080053d4   0x080053d4   0x00000018   Code   RO          525    i.load_flash        flash.o
+    0x080053ec   0x080053ec   0x0000009c   Code   RO          663    i.main              main.o
+    0x08005488   0x08005488   0x0000002c   Code   RO          576    i.ringbufCanWrite   ringbuf.o
+    0x080054b4   0x080054b4   0x0000002e   Code   RO          577    i.ringbufTryRead    ringbuf.o
+    0x080054e2   0x080054e2   0x00000026   Code   RO          579    i.ringbufWriteUnchecked  ringbuf.o
+    0x08005508   0x08005508   0x00000010   Code   RO          241    i.set_flag          can.o
+    0x08005518   0x08005518   0x0000004c   Code   RO           22    i.start_ADC         adc.o
+    0x08005564   0x08005564   0x00000008   Code   RO          299    i.txGetTimeMillis   can_callback.o
+    0x0800556c   0x0800556c   0x00000008   Code   RO          300    i.txHandleCANMessage  can_callback.o
+    0x08005574   0x08005574   0x00000028   Code   RO          242    i.txInit            can.o
+    0x0800559c   0x0800559c   0x00000074   Code   RO          243    i.txProcess         can.o
+    0x08005610   0x08005610   0x00000054   Code   RO          244    i.txReceiveCANMessage  can.o
+    0x08005664   0x08005664   0x0000001c   Code   RO          301    i.txSendCANMessage  can_callback.o
+    0x08005680   0x08005680   0x00000204   Code   RO           24    i.update_pedal_measurements  adc.o
+    0x08005884   0x08005884   0x00000030   Code   RO           25    i.update_voltage_measurements  adc.o
+    0x080058b4   0x080058b4   0x00000020   Code   RO          526    i.write_flash       flash.o
+    0x080058d4   0x080058d4   0x00000020   Data   RO         2879    .constdata          stm32f3xx_hal_rcc.o
+    0x080058f4   0x080058f4   0x00000018   Data   RO         4149    .constdata          system_stm32f3xx.o
+    0x0800590c   0x0800590c   0x00000020   Data   RO         4210    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080058f8, Size: 0x00000970, Max: 0x0000a000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800592c, Size: 0x00000978, Max: 0x0000a000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x080058f8   0x00000078   Data   RW           27    .data               adc.o
-    0x20000078   0x08005970   0x00000004   Data   RW          246    .data               can.o
-    0x2000007c   0x08005974   0x00000018   Data   RW          369    .data               can_ecup.o
-    0x20000094   0x0800598c   0x00000004   Data   RW          527    .data               flash.o
-    0x20000098   0x08005990   0x00000004   Data   RW          890    .data               stm32f3xx_hal_msp.o
-    0x2000009c   0x08005994   0x00000009   Data   RW         2719    .data               stm32f3xx_hal.o
-    0x200000a5   0x0800599d   0x00000003   PAD
-    0x200000a8   0x080059a0   0x00000004   Data   RW         4150    .data               system_stm32f3xx.o
-    0x200000ac        -       0x00000024   Zero   RW           26    .bss                adc.o
-    0x200000d0        -       0x00000110   Zero   RW          245    .bss                can.o
-    0x200001e0        -       0x0000001c   Zero   RW          302    .bss                can_callback.o
-    0x200001fc        -       0x00000010   Zero   RW          368    .bss                can_ecup.o
-    0x2000020c        -       0x00000344   Zero   RW          664    .bss                main.o
-    0x20000550        -       0x00000020   Zero   RW         3470    .bss                stm32f3xx_hal_flash.o
-    0x20000570        -       0x00000400   Zero   RW            1    STACK               startup_stm32f303xc.o
+    0x20000000   0x0800592c   0x00000080   Data   RW           27    .data               adc.o
+    0x20000080   0x080059ac   0x00000004   Data   RW          246    .data               can.o
+    0x20000084   0x080059b0   0x00000018   Data   RW          369    .data               can_ecup.o
+    0x2000009c   0x080059c8   0x00000004   Data   RW          527    .data               flash.o
+    0x200000a0   0x080059cc   0x00000004   Data   RW          890    .data               stm32f3xx_hal_msp.o
+    0x200000a4   0x080059d0   0x00000009   Data   RW         2719    .data               stm32f3xx_hal.o
+    0x200000ad   0x080059d9   0x00000003   PAD
+    0x200000b0   0x080059dc   0x00000004   Data   RW         4150    .data               system_stm32f3xx.o
+    0x200000b4        -       0x00000024   Zero   RW           26    .bss                adc.o
+    0x200000d8        -       0x00000110   Zero   RW          245    .bss                can.o
+    0x200001e8        -       0x0000001c   Zero   RW          302    .bss                can_callback.o
+    0x20000204        -       0x00000010   Zero   RW          368    .bss                can_ecup.o
+    0x20000214        -       0x00000344   Zero   RW          664    .bss                main.o
+    0x20000558        -       0x00000020   Zero   RW         3470    .bss                stm32f3xx_hal_flash.o
+    0x20000578        -       0x00000400   Zero   RW            1    STACK               startup_stm32f303xc.o
 
 
 ==============================================================================
@@ -2230,7 +2232,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1534        222          0        120         36     638765   adc.o
+      1586        224          0        128         36     638878   adc.o
        300         28          0          4        272       6944   can.o
        116         10          0          0         28       3277   can_callback.o
        820         90          0         24         16      10049   can_ecup.o
@@ -2259,7 +2261,7 @@ Image component sizes
        124         20         24          4          0       1175   system_stm32f3xx.o
 
     ----------------------------------------------------------------------
-     22076       1324        480        172       2244     787051   Object Totals
+     22128       1326        480        180       2244     787164   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         26          0          0          3          0          0   (incl. Padding)
 
@@ -2302,15 +2304,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     22296       1340        480        172       2244     771991   Grand Totals
-     22296       1340        480        172       2244     771991   ELF Image Totals
-     22296       1340        480        172          0          0   ROM Totals
+     22348       1342        480        180       2244     772104   Grand Totals
+     22348       1342        480        180       2244     772104   ELF Image Totals
+     22348       1342        480        180          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                22776 (  22.24kB)
-    Total RW  Size (RW Data + ZI Data)              2416 (   2.36kB)
-    Total ROM Size (Code + RO Data + RW Data)      22948 (  22.41kB)
+    Total RO  Size (Code + RO Data)                22828 (  22.29kB)
+    Total RW  Size (RW Data + ZI Data)              2424 (   2.37kB)
+    Total ROM Size (Code + RO Data + RW Data)      23008 (  22.47kB)
 
 ==============================================================================
 

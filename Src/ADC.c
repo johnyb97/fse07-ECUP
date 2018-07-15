@@ -19,10 +19,12 @@ static const uint16_t reference_val = 1000;
 #define PERCENT(percent_) (reference_val*(percent_)/100)
 static const uint16_t low_deadzone_threshold = 100; 
 static const uint16_t min_acc_presed_threshold = 50; 
-static const uint16_t high_deadzone_threshold = 1100; 
+static const uint16_t high_deadzone_threshold = 1100;
+static const uint16_t FT_can_timeout = 200; //for how long is FT as True because of one error
+uint32_t FT_can_countdown; //timeout set after FT found 
 
 #define LOW_DEADZONE(threshold_) ((threshold_) * (reference_val - low_deadzone_threshold)/reference_val) //minimal threshold for pedal to react else pedal in 0
-#define HIGH_DEADZONE(threshold_) ((threshold_) * (high_deadzone_threshold - reference_val)/reference_val) //maximal threshold for pedal to react else pedal in 0
+#define HIGH_DEADZONE(threshold_) ((threshold_) * (high_deadzone_threshold)/reference_val) //maximal threshold for pedal to react else pedal in 0
 
 volatile static uint32_t sens_ACC1; //acc pedal sensor 1
 volatile static int sens_ACC1_valid;
@@ -43,8 +45,8 @@ static const int ATPS_TIMEOUT = 200;
 
 static Calib_t calibrate;
 
-static uint16_t max_acc_pedal [2] = {2784,2656};
-static uint16_t min_acc_pedal [2] = {582,420};
+static uint16_t max_acc_pedal [2] = {1050,1200};
+static uint16_t min_acc_pedal [2] = {600,770};
 
 static uint16_t max_breake_pedal [2] = {750,900};
 static uint16_t min_breake_pedal [2]= {345,311};	
@@ -70,7 +72,8 @@ void init_measurements(){
 	ECUP_stat.BrakeActive_BSPD=0;
 	ECUP_stat.FT_ANY=0;
 	ECUP_stat.SDC_BOTS=0;
-	ECUP_ACC.SEQ = 0;	
+	ECUP_ACC.SEQ = 0;
+	FT_can_countdown = 0;
 }
 void calib_init(){
 	load_flash(&calibrate);
@@ -179,12 +182,18 @@ static int apply_calibration(int raw_value, int min, int max) {
   // TODO: deadzone, a tyhle veci -> Done i hope 
 	// TODO: funguje jen pro max > min. nutno overit ze smysl senzoru je kladny -> JAJA it is, pokud to nějaký genius nastavi obracene pocítí můj hněv 
 	// TODO: pred volanim funkce musi byt zkontrolovano ze min != max -> prečo? však vracis nulu
+	if (FT_can_countdown>0){
+		if (FT_can_countdown < HAL_GetTick()){
+				ECUP_stat.FT_ANY = 0;
+		}
+	}
 	if(max <= min){
 		return 0;
 	}
 	if (raw_value < min) {
 		if (raw_value < LOW_DEADZONE(min)){
 			ECUP_stat.FT_ANY = 1;
+			FT_can_countdown = HAL_GetTick()+ FT_can_timeout;
 		}
 		return 0;
 	}
@@ -193,6 +202,7 @@ static int apply_calibration(int raw_value, int min, int max) {
 			return reference_val;
 		}else{
 			ECUP_stat.FT_ANY = 1;
+			FT_can_countdown = HAL_GetTick()+ FT_can_timeout;
 			return 0;
 		}
 	}

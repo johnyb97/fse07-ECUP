@@ -166,67 +166,57 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ECUPdiag2.BrakePressFRaw,0x0A</ItemText>
+          <ItemText>ECUPdiag1.Acc1_raw,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ECUPdiag2.BrakePressRRaw,0x0A</ItemText>
+          <ItemText>ECUP_stat.BrakeActive,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ECUPdiag1.Acc1_raw,0x0A</ItemText>
+          <ItemText>pressure_F_kPa,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ATPS_countdown,0x0A</ItemText>
+          <ItemText>pressure_R_kPa,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ECUP_stat.BrakeActive,0x0A</ItemText>
+          <ItemText>sens_ACC1,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pressure_F_kPa,0x0A</ItemText>
+          <ItemText>sens_ACC2,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pressure_R_kPa,0x0A</ItemText>
+          <ItemText>max_acc_pedal,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sens_ACC1,0x0A</ItemText>
+          <ItemText>min_acc_pedal,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>11</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sens_ACC2,0x0A</ItemText>
+          <ItemText>max_breake_pedal,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>12</count>
           <WinNumber>1</WinNumber>
-          <ItemText>max_acc_pedal,0x0A</ItemText>
+          <ItemText>min_breake_pedal,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
           <WinNumber>1</WinNumber>
-          <ItemText>min_acc_pedal,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>14</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>max_breake_pedal,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>15</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>min_breake_pedal,0x0A</ItemText>
+          <ItemText>ECUP_stat.FT_ANY,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
