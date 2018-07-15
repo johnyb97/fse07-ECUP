@@ -15,50 +15,41 @@ volatile ADC_measurements_t adc_measurement1;// namerene raw hodnoty
 volatile uint16_t adc_measurement2[2];// namerene raw hodnoty
 volatile uint16_t adc_measurement3[2];// namerene raw hodnoty
 
-const static uint16_t reference_val = 1000; 
+static const uint16_t reference_val = 1000; 
 #define PERCENT(percent_) (reference_val*(percent_)/100)
+static const uint16_t low_deadzone_threshold = 100; 
+static const uint16_t min_acc_presed_threshold = 50; 
+static const uint16_t high_deadzone_threshold = 1100; 
 
-/*volatile static uint32_t sens_Brake_Preasure1; // predni nebo zadni ZJISTIT
-volatile static uint32_t sens_Brake_Preasure2; // predni nebo zadni ZJISTIT*/
+#define LOW_DEADZONE(threshold_) ((threshold_) * (reference_val - low_deadzone_threshold)/reference_val) //minimal threshold for pedal to react else pedal in 0
+#define HIGH_DEADZONE(threshold_) ((threshold_) * (high_deadzone_threshold - reference_val)/reference_val) //maximal threshold for pedal to react else pedal in 0
 
-volatile static uint32_t sens_ACC1;						// acc pedal sensor 1
+volatile static uint32_t sens_ACC1; //acc pedal sensor 1
 volatile static int sens_ACC1_valid;
 volatile static int ACC1_raw;
 
-volatile static uint32_t sens_ACC2;						// acc pedal sensor 2
+volatile static uint32_t sens_ACC2;  //acc pedal sensor 2
 volatile static int sens_ACC2_valid;
 volatile static int ACC2_raw;
 
 volatile uint16_t Vol_IN; //vstupni napeti
-volatile uint16_t Vol1_out;//
-//volatile static uint32_t a5; //some temperatures i think i´m not sure
-//volatile static uint32_t a6; //some temperatures i think i´m not sure
-volatile uint16_t VOI; // poptat se
+volatile uint16_t Vol1_out;
+volatile uint16_t VOI;
 
 static uint64_t ATPS_countdown; //countdown for ATPS pausability (if brake presed and accelerator is presed more than 25% for at least 200ms than accelerator = 0)
-#define ATPS_TIMEOUT 200 //ms time for ATPS_countdown
-
 static volatile uint32_t break_press [2];
-static int APPS_DEADTIME = 200;
-static uint16_t reakup [2];
-
+static const int ATPS_TIMEOUT = 200;
+//static uint16_t reakup[2]; //možna bude fungovat za rok???
 
 static Calib_t calibrate;
 
-static uint16_t i =0 ;
 static uint16_t max_acc_pedal [2] = {2784,2656};
 static uint16_t min_acc_pedal [2] = {582,420};
 
 static uint16_t max_breake_pedal [2] = {750,900};
 static uint16_t min_breake_pedal [2]= {345,311};	
 
-//static uint16_t max_control_acc[2] = {3000,3000};
-//static uint16_t min_control_acc[2] = {200,200};
-
-//static uint16_t min_brake_preasure[2] = {550,555};
-//static uint16_t max_brake_preasure[2] = {2000,1300};
-
-static uint16_t calib_offset = 10; // kalibracni offset
+static uint16_t calib_offset = 10; // calibration offset
 
 static ECUP_Status_t ECUP_stat;
 static ECUP_Pedals_t ECUP_ACC;
@@ -67,7 +58,6 @@ static ECUP_DiagPressure_t ECUPdiag2;
 static ECUP_DiagPos_t ECUPdiag1;
 static ECUP_REQCalibPedal_t ECUP_CALIB;
 static int send;
-//static uint16_t constat_to_current;//zbyva doplnit
 
 
 /*initialization functions*/
@@ -186,17 +176,28 @@ void ERROR_check_acc_and_percent_transfer(){ // checkovani plausability plynu
 */
 
 static int apply_calibration(int raw_value, int min, int max) {
-  // TODO: deadzone, a tyhle veci
-	// TODO: funguje jen pro max > min. nutno overit ze smysl senzoru je kladny
-	// TODO: pred volanim funkce musi byt zkontrolovano ze min != max
+  // TODO: deadzone, a tyhle veci -> Done i hope 
+	// TODO: funguje jen pro max > min. nutno overit ze smysl senzoru je kladny -> JAJA it is, pokud to nějaký genius nastavi obracene pocítí můj hněv 
+	// TODO: pred volanim funkce musi byt zkontrolovano ze min != max -> prečo? však vracis nulu
+	if(max <= min){
+		return 0;
+	}
 	if (raw_value < min) {
+		if (raw_value < LOW_DEADZONE(min)){
+			ECUP_stat.FT_ANY = 1;
+		}
 		return 0;
 	}
 	else if (raw_value > max) {
-		return reference_val;
+		if (raw_value < HIGH_DEADZONE(max)){
+			return reference_val;
+		}else{
+			ECUP_stat.FT_ANY = 1;
+			return 0;
+		}
 	}
 	else {
-		return (raw_value - min)*PERCENT(100)/(max - min); // senzor plyn
+		return ( raw_value - min)*PERCENT(100)/(max - min); // senzor plyn
 	}
 }
 
@@ -261,8 +262,8 @@ void Calibrate_pedals(ECUP_REQCalibPedal_t *ECUP_CALIB){
 				calibrate.validity[3] = 1;
 		break;
 		case ECUP_CAL_PedalIndex_RegenMax:
-			reakup[0] = adc_measurement1.press_f;
-			reakup[1] = adc_measurement1.press_r;
+			//reakup[0] = adc_measurement1.press_f;  //možna bude fungovat za rok???
+			//reakup[1] = adc_measurement1.press_r;  //možna bude fungovat za rok???
 		default:
 			break;
 		}
@@ -304,7 +305,7 @@ static void update_pedal_measurements(int PRESS_F_raw, int PRESS_R_raw, int ACC1
 	else{
 		ECUP_stat.BrakeActive = 0;
 	}
-	HAL_GPIO_WritePin(LED_4_GPIO_Port,LED_4_Pin,ECUP_stat.BrakeActive);
+	HAL_GPIO_WritePin(LED_4_GPIO_Port,LED_4_Pin,(GPIO_PinState)ECUP_stat.BrakeActive);
 
   	// Pedal processing -- APPS calibration
     // Convert raw values to percentages
@@ -325,7 +326,11 @@ static void update_pedal_measurements(int PRESS_F_raw, int PRESS_R_raw, int ACC1
       ECUP_ACC.FT_APPS_pos = 1;
     	ECUP_stat.APPS_Plausible = 0;
   	}
-		HAL_GPIO_WritePin(LED_3_GPIO_Port,LED_3_Pin,APPS_plausible);
+	if(ECUP_ACC.APPS_pos <= min_acc_presed_threshold){
+		ECUP_ACC.APPS_pos = 0;
+	}
+		
+		HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, (GPIO_PinState)APPS_plausible);
   // starsi (overeny) kod pro BPPC (soft-bspd) kdyby byl potreba
 	// EV2.5 Torque Encoder / Brake Pedal Plausibility Check
 		/*if(s_brakeActive && (ECUP_ACC.APPS_pos > PERCENT(25))) // 25 % accelerator limit
@@ -354,7 +359,6 @@ static void update_pedal_measurements(int PRESS_F_raw, int PRESS_R_raw, int ACC1
 	}*/
   
   
-  
     // TODO: jak je zajistena podminka 5% ??
 	if (ECUP_stat.BrakeActive && (ECUP_ACC.APPS_pos > PERCENT(25))){
 		if (ATPS_countdown == 0){
@@ -373,7 +377,7 @@ static void update_pedal_measurements(int PRESS_F_raw, int PRESS_R_raw, int ACC1
 		}
 	}
 	int bspd = HAL_GPIO_ReadPin(BSPD_In_GPIO_Port,BSPD_In_Pin);
-	HAL_GPIO_WritePin(LED_2_GPIO_Port,LED_2_Pin,bspd);
+	HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, (GPIO_PinState)bspd);
 	
   // this won't work until we have the sensors!!!!!!
 	ECUP_ACC.Brake_pos = 0;

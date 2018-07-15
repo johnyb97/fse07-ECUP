@@ -265,7 +265,7 @@ void USB_LP_CAN_RX0_IRQHandler(void)
 	CAN_HandleRX0IRQ(CAN,0);
 	return;
   /* USER CODE END USB_LP_CAN_RX0_IRQn 0 */
-  HAL_CAN_IRQHandler(&hcan);
+  //HAL_CAN_IRQHandler(&hcan);
   /* USER CODE BEGIN USB_LP_CAN_RX0_IRQn 1 */
 
   /* USER CODE END USB_LP_CAN_RX0_IRQn 1 */
